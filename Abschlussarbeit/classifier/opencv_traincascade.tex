@@ -1,0 +1,78 @@
+Im letzten Schritt zum Antrainieren der Klassifizierer wird das Tool 'opencv traincascade' verwendet. Dieses Programm dient dazu, die in den vorherigen Schritten erstellten Samples zum antrainieren eines Klassifizierers zu verwenden. Eine beispielhafte Verwendung sieht wie folgt aus:
+\begin{lstlisting}
+opencv_traincascade -data obj-classifier/ -vec pos.vec 
+\end{lstlisting}
+\begin{lstlisting}
+-bg bg.txt -numPos 2800 -numNeg 2800 -minHitRate 0.999 
+\end{lstlisting}
+\begin{lstlisting}
+-maxFalseAlarmRate 0.5 -numStages 14 -numThreads 8 
+\end{lstlisting}
+\begin{lstlisting}
+-featureType HAAR -mode ALL -w 32 -h 32 
+\end{lstlisting}
+\begin{lstlisting}
+-precalcValBufSize 4096 -precalcIdxBufSize 4096 
+\end{lstlisting}
+\begin{lstlisting}
+-nonsym -baseFormatSave
+\end{lstlisting}
+Es ist offensichtlich, dass dieser Befehl eine Fülle an Optionen zum antrainieren mit sich bringt. Im Folgenden wird nur auf die wichtigsten und elementaren Aspekte dieses Befehls eingegangen.
+\begin{table}[H]
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+Parameter & Erklärung \\ 
+\hline
+data & Im '-data' Abschnitt wird der Ordner festgelegt, in welchen die Stages, ein sogenanntes 'params.xml' File und die Kaskade abgelegt werden. Nach jeder Stage im Trainingsprozess wird ein neues File namens 'stageX.xml', wobei 'X' für die entsprechende Stage steht, in dem '-data' Ordner angelegt. Sollte das Training erfolgreich sein, indem der Prozess entweder bis zur in '-numStages' gesetzten Stage gekommen ist oder die entsprechende Erfolgsrate erreicht hat, wird ein File namens 'cascade.xml' erzeugt. Dieses File kann vom Viola-Jones Algorithmus genutzt werden. Das 'params.xml' File ist ein einfaches XML Konstrukt, dass einige Paramater, welche in obiger Codezeile verwendet wurden, speichert, um diese bei einer Fortsetzung des Trainings wiederverwenden zu können. Dies bedeutet natürlich auch, dass sobald der Trainingsprozess mit gesetzten Parametern begonnen wurden, diese nicht mehr geändert werden können. Außnahmen hierzu werden im an diese Tabelle folgenden Abschnitt erklärt. \\ 
+\hline
+vec & Gibt den Pfad zum pos.vec File, welches im Abschnitt  \ref{sec:opencv_createsamples} bereits erklärt wurde, an.\\ 
+\hline
+bg & Gibt den Pfad zur bg.txt Datei an.\\ \hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+numPos & Legt die Anzahl an positiven Samples fest, die für die Stage 0 verwendet werden. Hierbei ist zu beachten, dass je nach Anzahl an zu trainierende Stages ein Wert unterhalb des Limits an positiven Samples, die in pos.vec im vorherigen Schritt generiert wurden, gewählt werden muss. Dies liegt daran, dass pro Stage zusätzliche positive Samples mit in Betracht gezogen werden. Der Grund hierfür ist, dass das Trainingsergebnis auch mit Samples funktionieren soll, mit denen nicht gelernt wurde, also eine automatische Überprüfung der Zwischenergebnisse. Der Wert für '-numPos' sollte maximal entsprechend der Hitrate gewählt werden. Beispielsweise werden bei einer minHitrate von 0.99 pro Stage circa 1\% positive Samples für den Trainingsprozess hinzugezogen. \\ 
+\hline
+numNeg & Gibt die Zahl an negativen Bildern an. Die Zahl darf nicht größer als die Anzahl an Bildern in der 'bg.txt' Datei sein. In manchen Fällen ist es ratsam, einen kleineren Wert an Negativbildern zu wählen, in der Regel sollte der Wert jedoch genau der Anzahl an Samples in der 'bg.txt' Datei entsprechen. \\ 
+\hline
+minHitRate & Setzt die Mindestrate, mit der die positiven Bilder erkannt werden müssen. Bei obigem Beispiel ist die minHitRate auf 0.999 gesetzt, was bedeutet, dass der Trainingsprozess trotzdem erfolgreich ist, wenn 1 aus 1000 Objekten nicht erkannt wurde. Die minHitRate hat direkten, aber nicht proportionalen, Einfluss darauf, wieviele neue positive Samples für die nächste Stage zum trainieren verwendet werden. \\ 
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+maxFalseAlarmRate & Gibt die Rate an, wieviele Weak Classifier einen sogenannten False Positive, also eine vermeintliche korrekte Erkennung des entsprechenden Bildabschnitts, abgeben dürfen. 0.5 entspricht dem Standardwert. Experimente mit diesem Wert wurden nicht unternommen, da alle Ergebnisse mit diesem Wert erzielt wurden.\\ 
+\hline
+numStages & Dieser Wert gibt an, bis zu welchem Grad das Training ausgeführt werden soll. Je mehr Stages, desto genauer ist das Ergebnis, also der Klassifizierer. Jedoch kann es passieren, dass im Falle einer zu hoch gewählten Anzahl an Stages das Ergebnis 'Overfitted' ist, also der Klassifizierer nicht mehr allgemein genug ist. Hierbei kann dann das Objekt nur unter ganz bestimmten Bedingungen korrekt erkannt werden. Die AcceptanceRatio ist ein Anhaltungspunkt anhand derer eine passende Anzahl an maximale Anzahl an Stages gewählt werden kann. Die AcceptanceRatio wird nach der Befehlserklärung erklärt.\\ 
+\hline
+numThreads & Für den Falle, dass Multithreading auf der Maschine zur Verfügung steht, kann dieser Parameter gesetzt werden. Multithreading führt zu einer deutlichen Zeitersparnis beim Antrainieren des Klassifizierers.\\ 
+\hline
+featureType & Für unser Training wurden Haar-like Features verlangt, weshalb dieser Parameter auf 'HAAR' gesetzt wurde. Andere Featuretypen wie beispielsweise LDBP wären ebenfalls möglich, waren jedoch nicht Gegenstand dieses Projekts.\\ 
+\hline
+mode & Dieser Parameter gibt die zulässigen Weak Classifier an. Es stehen die Modi 'BASIC', 'CORE' und 'ALL' zur Verfügung. Der Modus 'ALL' war bei uns eine zwingende Wahl, da unsere Objekte schräge Kanten enthalten und nur dieser Modus die entsprechenden Weak Classifier hierzu anwendet.\\ 
+\hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+w und h & Geben die Größe, in Form von Breite und Höhe, der in pos.vec spezifizierten Samples an. Die Werte müssen zwingend den Werten der genutzten Samples entsprechend, da das Programm sonst den Trainingsprozess nicht durchführen kann.\\ 
+\hline
+precalcValBufSize & Genutzer Buffer im Hauptspeicher um Vorberechnungen auszulagern und den Trainingsprozess zu beschleunigen. Ein Wert von mindestens '1024' sollte hier gewählt werden, um eine Beschleunigung zu erreichen.\\ 
+\hline
+precalcIdxBufSize & Entsprechend dem Vorgänger sollte dieser Parameter den gleichen Wert erhalten, um eine Beschleunigung zu erzielen. Dieser Parameter muss implizit genutzt werden, sollte '-precalcValBufSize' genutzt werden.\\  \hline
+nonsym & Lässt man diesen Parameter weg, wird die params.xml Datei nicht in die cascade.xml mit eingebunden. Unsere Implementierung von Viola-Jones braucht diesen Kopf jedoch, weshalb der Parameter verwendet wurde.\\ 
+\hline
+baseFormatSave & Dies ist ein Parameter, der die Abwärtskompabilität für Haar-like Features garantiert. Für gewöhnlich werden Haar-like features nicht mehr verwendet und das Programm ist fähig auch neuere Klassifiziererarten zu generieren, die ein neueres Format verwenden. Da in unserem Fall der alte Haar-like Featuretyp verwendet wird, muss dieser Parameter gesetzt werden. \\
+\hline
+\end{tabularx}
+\label{tab:traincascade parameters}
+\caption{Opencv Traincascade: Parameter und deren Erklärung}
+\end{table}
+\label{sec:traincascade}

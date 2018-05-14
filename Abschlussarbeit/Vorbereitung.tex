@@ -1,0 +1,37 @@
+Die Idee zur Umsetzung des Projekts, nämlich den Viola-Jones Algorithmus 
+für Gesichtserkennung umzufunktionieren und Schilder beziehungsweise 
+Pylonen damit zu erkennen, ließ sich nicht ohne weiteres durchführen.
+Es mussten gewisse Vorbereitungen getroffen werden um etwaige Probleme 
+zu meistern. Hierzu zählte unter anderem eine Version des 
+Viola-Jones mit Python unter ROS zum laufen zu bringen.
+\par
+Aufgrund der speziellen Architektur des Rapsberry Pi Modell 3, auf dem 
+gearbeitet wurde, ließ sich dieses Problem nicht sofort bewerkstelligen. 
+Wir liefen in eine Vielzahl von Problemen beim Compilingprozess:
+\begin{itemize}
+\item[Überhitzung] Der Compileprozess dauerte lange. Währenddessen lief 
+der Rasberry unter Hochtouren, was eine Überhitzung zur Folge hatte. Den 
+Stecker zu ziehen war daraufhin die einzige Möglichkeit, den Raspberry 
+wieder in den Griff zu bekommen. Es musste folglich eine alternative 
+Version von OpenCV gesucht werden, die wir mit Python kompilieren 
+konnten.
+\item[Auslagerungsdatei] Die Auslagerungsdatei des Betriebssystems war 
+zuerst zu klein eingestellt. Dies hatte zur Folge, dass an einem 
+gewissen Punkt des Kompilierprozesses dieser einfach abbrach, mit einer 
+kryptischen Fehlermeldung. Wir erweiterten die Auslagerungsdatei 
+anschließend um dieses Problem zu beseitigen.
+\item[OpenCV] Für den Raspberry Pi gab es kein fertiges OpenCV Package 
+zum herunterladen, weshalb wir dieses selbst bauen mussten. Für die von 
+uns verwendet Version waren einige Packages nötig, die wir 
+nachinstallieren mussten. Jedoch wurden uns die Abhängigkeiten erst 
+während des Kompilierprozesses mitgeteilt, weshalb wir diesen mehrmals 
+neu starten mussten.
+\item[Korrekte Python Version] Die aktuellste installierte Python 
+Version auf dem ROS ist 3.0. Um OpenCV jedoch kompilieren zu können 
+wurde Python in der Version 2.7 gebraucht. Dies stellte ein großes 
+Problem dar, da eine ganz bestimmte Version von Python verwendet werden 
+musste, und es schwer war, genau die richtige zu selektieren und 
+anschließend diese im Kompilierprozess zu verwenden.
+\end{itemize}
+Nachdem wir diese Probleme bewältigt hatten, konnten wir mit dem 
+eigentlichen Teil des Projektes beginnen.

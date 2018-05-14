@@ -1,0 +1,20 @@
+Das grundlegende Ziel des Projektes ist es auf einem Raspberry Pi 3, mittels dem Algorithmus von Viola-Jones, drei Verkehrsschilder und Pylonen zu erkennen. Im Anschluss sollen die Koordinaten der Bounding-Boxes (minimal umgebendes Rechteck) und ein entsprechendes Label zurückgegeben werden. Dabei hatten sich folgende Schritte ergeben, die es als erstes zu bewältigen gab:
+
+\begin{enumerate}
+\item Festlegen auf eine Programier- oder Skript-Sprache zur Implementierung 
+\item Ermitteln der nötigen Softwarepakete, Bibliotheken und Frameworks um diese Sprache und deren Funktionalitäten auf dem Pi nutzen zu können
+\item Installation und einrichten der entsprechendenden Pakete und Bibliotheken
+\item (Optional) Finden von Code-Beispielen oder vergleichbarer Implementierungen, um diese als Vorlage zu verwenden
+\end{enumerate}
+
+Nachdem das Framework, mit Hilfe dessen das Programm entwickelt werden sollte, definiert wurde, haben wir ein Reihe von Funktionalitäten bestimmt, die wir für die Umsetzung des Projektes als nötig oder wünschenswert erachtet haben: 
+
+\begin{itemize}
+\item Erkennen von Objekten und Ausgabe der Position im Frame
+\item Ausgabe eines Videostream mit den Bounding-Boxes
+\item Übermittlung des Video-Streams mittels TCP Verbindung an einen Server oder Client
+\item Implementierung einer Metrik zur Ermittlung der Performance der verschiedenen Modi
+\end{itemize}
+
+
+

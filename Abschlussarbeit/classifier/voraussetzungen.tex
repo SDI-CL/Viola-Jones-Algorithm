@@ -1,0 +1,13 @@
+Um einen Klassifizierer für den Viola Jones Algorithmus anlernen zu können, braucht dieser folgende Dinge:
+\begin{enumerate}
+\item Einen Datensatz an originalen positiven Bildern. Positiv heißt, dass in diesem Bild das zu erkennende Objekt enthalten ist.
+\item Optional: Einen Datensatz an künstlichen positiven Bildern. Dieser kann mit entsprechenden Tools aus obigen originalen positiven Bildern und einem Datensatz an Negativbildern erzeugt werden.
+\item Zu dem Datensatz mit positiven Bildern muss es eine Liste geben, die alle Vorkomnisse an Objekten in einem positiven Bild enthält. Diese wird meist als 'info.txt' abgespeichert und entspricht der Form \\
+\textbf{[Verzeichnis/Bildname] [Anzahl vorkommender Objekte] [X-Position Y-Position Breite Höhe]}. \label{sec:info_txt}\\
+Wobei der Ursprung des Koordinatensystem in der linken oberen Ecke ist und das Koordinatensystem sich über die normalerweise negative Y-Achse aufspannt.
+\item Ein Datensatz an negativen Bildern. Negativ bedeutet, dass in diesem Bild das zu erkennende Objekt nicht enthalten ist. Es kann also irgendein wahlfreies Bild sein, ohne das Vorkommen des Objekts. Hierzu muss ebenfalls eine Liste erstellt werden, die alle Bilder vereint. Diese Liste wird in der Regel 'bg.txt' genannt. Die Form hierfür ist \\
+\textbf{[Verzeichnis/Bildname]}.
+\item Ein Programm, mit dem ein Haar-like Klassifizierer angelernt werden kann. Das in dieser Arbeit verwendete Programm ist OpenCV.
+\end{enumerate}
+Die Anzahl an zu verwendenden Bildern wurde absichtlich weggelassen. Dies liegt daran, dass die Anzahl an benötigten Bildern stark variieren kann und vom Objekt abhängt. Im Beispiel eines rigiden Objekts können gute Ergebnisse mit wenigen Originalbildern erzielt werden, in unserem Fall ein Verkehrspylon. Im Falle eines nicht-rigiden Objekts, beispielsweise einem Gesicht, kann es wesentlich mehr Abweichungen von der Norm geben, weshalb eine wesentlich größere Anzahl an originalen Positivbildern erzeugt werden muss. \\
+Hat man obige Kriterien erfüllt, kann mit dem Lernprozess begonnen werden.

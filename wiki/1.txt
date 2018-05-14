@@ -1,0 +1,13 @@
+#
+We are two computer science master students at FAU Erlangen. Our main 
+target is to implement an adapted version of the famous Viola-Jones 
+algorithm for facial recognition. Our version of this algorithm shall 
+provide two modes. The first mode is cone-detection, which are typically 
+used as street 
+markings. The cones shall be correctly detected, and our RC car shall 
+then drive through them autonomously.
+The second mode shall provide street sign recognition with the correct 
+reactions. For example, upon recognizing a stop sign, the RC car is 
+obligated to stop, wait for some time and then continue driving.
+Furthermore, after implementing those two modes, we will be trying to 
+improve performance and driving skills.

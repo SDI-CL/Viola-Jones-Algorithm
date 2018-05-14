@@ -1,0 +1,316 @@
+\documentclass[12pt,twoside]{report}
+% Die Option a4paper kann nötig sein, um das PDF nachher beim Copyshop drucken zu können.
+%\documentclass[12pt,twoside,a4paper]{report}
+
+
+\makeindex
+\usepackage{german,a4}
+\usepackage{color}
+%\usepackage[dvips]{graphicx}
+\usepackage{psfrag}
+\usepackage{epsfig}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage{cite}
+\usepackage{graphicx}
+% setzt den pfad zum suchen der bilder
+\graphicspath{{figures/}}
+\usepackage{subcaption}
+%\usepackage{subfig}
+\usepackage{float}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+%% the following commands are needed for some matlab2tikz features
+\usetikzlibrary{plotmarks}
+\usetikzlibrary{arrows.meta}
+\usepgfplotslibrary{patchplots}
+\usepackage{amsmath}
+\usepackage{textcomp}
+
+\usepackage[svgnames,pdf]{pstricks}
+\usepackage{pst-grad} % For gradients 
+\usepackage{pst-plot} % For axes 
+\usepackage[space]{grffile} % For spaces in paths 
+\usepackage{etoolbox} % For spaces in paths
+\usepackage{pgf,tikz}
+\usetikzlibrary{arrows}
+\usepackage{tabularx}
+
+\usepackage{url}
+\usepackage{listings}
+\usepackage{pdfpages}
+\usepackage{subcaption}
+\makeatletter % For spaces in paths 
+ \patchcmd\Gread@eps{\@inputcheck#1 }{\@inputcheck"#1"\relax}{}{} 
+ \makeatother
+
+
+\usepackage{listings}
+\usepackage{color}
+\definecolor{lightgray}{gray}{0.9}
+
+\lstset{
+    showstringspaces=false,
+    basicstyle=\ttfamily,
+    keywordstyle=\color{blue},
+    commentstyle=\color[grey]{0.6},
+    stringstyle=\color[RGB]{255,150,75}
+}
+
+\newcommand{\inlinecode}[2]{\colorbox{lightgray}{\lstinline[language=#1]$#2$}}
+
+\include{makros}
+
+
+
+%Definition der Seitengr"osse
+\setlength{\textwidth}{15.5 true cm}
+\setlength{\textheight}{22 true cm}
+
+\oddsidemargin  0.5 cm
+\evensidemargin 0.5 cm
+\topmargin      0 cm
+\parindent 			0 cm
+
+\selectlanguage{german}
+
+
+
+\renewcommand{\baselinestretch}{1.5}
+ \renewcommand{\captionfont}{\linespread{1}\normalsize} 
+ \renewcommand{\textfraction}{0}
+
+% Fancyhdr
+\setlength{\headheight}{0.75cm}
+\fancypagestyle{plain}{
+	\fancyhf{}
+	\fancyhead[EL,OR]{\thepage}
+	\fancyhead[ER]{\leftmark}
+	\fancyhead[OL]{\leftmark}
+	}
+
+\fancypagestyle{newfancy}{
+	\fancyhf{}
+	\fancyhead[EL,OR]{\thepage}
+%	\fancyhead[ER]{\rightmark}
+	\fancyhead[OL]{\rightmark}
+	}
+\pagestyle{newfancy}
+
+
+\renewcommand{\chaptermark}[1]{\markboth{\uppercase{\chaptername \ \thechapter.\ #1}}{}} 
+\renewcommand{\sectionmark}[1]{ \markright{ \uppercase{\thesection.\ #1}}{}} 
+
+
+
+
+\begin{document}
+
+
+%%%%%%%%%%%
+%  Titel  %
+%%%%%%%%%%%
+
+\begin{titlepage}
+\begin{center}
+\vspace*{-1cm}
+ {\LARGE Friedrich-Alexander-Universität Erlangen-Nürnberg}\\
+\vspace{1cm}  
+ {\Large \textbf{Lehrstuhl für Rechnerarchitektur}}\\
+\vspace{1cm}  
+ {\Large Prof. Dr. Dietmar Fey}\\
+\vspace{3cm}  
+ {\LARGE Masterprojekt}\\
+\vspace{2cm}  
+ {\LARGE \textbf{Smartcameras\\ Detektion von Straßenschildern und Pylonen mittels Viola-Jones Algorithmus}}\\
+\vspace{2cm} 
+{\LARGE von Christoper Werner\\und \\ Maximilian Langohr}\\
+\vspace{3cm} 
+{\Large März 2018}\\
+\vspace{1cm} 
+{\Large }
+
+\end{center}
+\end{titlepage}
+
+
+%\addtocounter{page}{-1} 
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%  Inhaltsverzeichnis  %
+%%%%%%%%%%%%%%%%%%%%%%%%
+\addtocounter{page}{-2}
+\tableofcontents   
+\clearpage
+
+%%%%%%%%%%%%%%%%%
+%  Kurzfassung  %
+%%%%%%%%%%%%%%%%%
+
+%\renewcommand{\chaptermark}[1]{ \markboth{ \uppercase{#1}}{}} 
+%\input{emptypage}
+%\chaptermark{Kurzfassung}
+%\renewcommand{\chaptermark}[1]{\markboth{\uppercase{\chaptername \ \thechapter.\ #1}}{}} 
+
+%\chapter*{Kurzfassung}
+%\addcontentsline{toc}{chapter}{Kurzfassung}
+%\input{abstract}
+%\clearpage
+
+%%%%%%%%%%%%%%%%
+% Ausarbeitung %
+%%%%%%%%%%%%%%%%
+
+% Abstände vor und nach Formeln
+\setlength{\belowdisplayskip}{0.5cm}
+\setlength{\belowdisplayshortskip}{0.5cm}
+%\setlength{\abovedisplayskip}{-0.05cm}
+%\setlength{\abovedisplayshortskip}{-0.05cm}
+
+\renewcommand{\sectionmark}[1]{ \markright{ \uppercase{\chaptername \ \thechapter.\ #1}}{}} 
+\chapter{Motivation}
+\sectionmark{Danksagung}
+\chaptermark{Motivation}
+\sectionmark{Motivation}
+\label{chap:Motivation} 
+\pagenumbering{arabic}
+\input{motivation}
+\renewcommand{\sectionmark}[1]{ \markright{ \uppercase{\thesection.\ #1}}{}} 
+
+%%%%%%%%%%%%%%%%
+% Viola-Jones  %
+%%%%%%%%%%%%%%%%
+
+\chapter{Der Viola und Jones Algorithmus}
+\chaptermark{Viola-Jones}
+\label{chap:viola-jones}
+\input{classifier/introduction}
+
+\section{Vorbereitungen und grundlegender Ablauf}
+\input{classifier/ablauf}
+
+
+\section{Antrainieren der Klassifizierer}
+\subsection{Voraussetzungen}
+\input{classifier/voraussetzungen}
+
+\subsection{Antrainieren}
+\input{classifier/antrainieren}
+
+\subsubsection{Opencv Annotations}
+\input{classifier/opencv_annotations}
+
+\subsubsection{Opencv Createsamples}
+\input{classifier/opencv_createsamples}
+
+\subsubsection{Opencv Traincascade}
+\input{classifier/opencv_traincascade}
+
+\subsubsection{Trainingsprozess}
+\input{classifier/trainingsprozess}
+
+\section{Probleme}
+\input{classifier/probleme}
+
+%%%%%%%%%%%%%%%%
+%     VJCMS    %
+%%%%%%%%%%%%%%%%
+
+\chapter{VJCMS}
+\chaptermark{VJCMS}
+\label{chap:vjcms}
+\input{vjcms/intruduction}
+
+\section{Ziele}
+\label{sec: aims}
+\input{vjcms/aims}
+
+
+\section{Voraussetzungen}
+\label{sec:requirementsVCJMS}
+\input{vjcms/requirements}
+
+
+
+\section{Aufbau des Programms}
+\label{sec: structure}
+\input{vjcms/structure}
+\newpage
+\section{Funktionalität}
+\label{sec: functions}
+\input{vjcms/functions}
+
+%%%%%%%%%%%%%%%%
+% Auswertung   %
+%%%%%%%%%%%%%%%%
+
+\chapter{Auswertung}
+\chaptermark{Auswertung}
+\label{chap:Asuwertung}
+\input{results}
+
+
+%%%%%%%%%%%%%%%%
+%    Fazit     %
+%%%%%%%%%%%%%%%%
+
+\chapter{Fazit}
+\chaptermark{Fazit}
+\label{chap:Fazit}
+\input{fazit}
+
+
+\thispagestyle{empty}
+\section*{}
+
+\newpage
+
+%%%%%%%%%%%%
+%  Anhang  %
+%%%%%%%%%%%%
+
+\begin{appendix}
+\renewcommand{\chaptermark}[1]{\markboth{\uppercase{Anhang \ \thechapter.\ #1}}{}} 
+
+
+
+
+\renewcommand{\chaptermark}[1]{\markboth{\uppercase{\chaptername \ \thechapter.\ #1}}{}} 
+
+\end{appendix}
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  Literaturverzeichnis  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%nicht referenzierte Literaturstellen
+%\nocite{}
+
+% Literaturverzeichnis einbinden, alpha, plain, unsrt, abbrv
+\newpage
+%Eintrag im Inhaltsverzeichnis
+\addtocounter{page}{1}
+\addcontentsline{toc}{chapter}{Literaturverzeichnis}
+\addtocounter{page}{-1}
+
+\bibliographystyle{alphadin}
+\bibliography{literatur}
+
+
+
+
+
+
+\end{document}

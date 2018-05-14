@@ -1,0 +1,145 @@
+VJCMS
+Berichtes - Berichts
+Recherche - Recherchen
+bzw. - ausschreiben?
+Programmes - Programms
+implementiert - falsch geschrieben
+einfach - weglassen
+dies - diese
+gewisse - wie lang? Das ist doch festgeschrieben
+Camshift - Camshift-Algorithmus?
+
+Ziele
+Thema nachstellen? Erst einmal vorstellen, dann sagen was die Ziele sind
+Verkehrsschilder - ern
+Reihe? Ist doch festgelegt, dass es 3 sind.
+Bounding-Boxes erklären?
+gab:
+Die Schritte haben nichts mit Zielen zu tun
+Pi abkürzen?
+einrichten - Einrichtung
+vergleichbaren - barer
+Framework stand ist sehr umgänglich formuliert
+haben:
+
+Voraussetzungen
+Programes - Programms
+Voraussetzungen - vorinstallierte Packages
+sehr stark - komplett? Zu größten Teilen?
+Dabei - Klingt falsch
+Pi wieder ausgeschrieben
+leider - weglassen
+OpenCV muss selbst kompiliert werden. hierbei können zwei Probleme auftreten.
+Das erste Problem ist
+halten um mit diesem arbeiten zu können
+Dies - Dieses konnte ... des
+wir - wird
+um - weglassen
+
+Aufbau des Programms
+utils - ? Den Ordner?
+Loggin(g)
+die - weglassen
+
+VJCMS
+Prog...
+auch - weglassen
+
+Viola
+Klasse
+dem - den
+
+object
+Nur ein Satz?
+ausgeführt - angewandt/genutzt
+
+VJ_Logging
+Insgesamt
+/ - beziehungsweise?
+angeben, welche
+darstellen, aber
+sein. In
+
+VJ_Exception
+Was machen diese Klassen?
+
+monitor
+dient der reinen Anzeige
+welcher durch VJCMS gesendet wird
+erwünscht - per Konsole angegeben wurde
+
+Funktionalität
+Dazu sagen, dass das die Kommandozeilenparameter sind?
+Ordner Videos    oder   ,wird verwendet
+Welche Parameter sind Optional?
+IP-Adresse
+Anzahl der Frames,
+Liste der Objekte, 
+wird, wir
+erkenen - erkennen
+Parameter - n
+sehr - weglassen
+
+detect_and_track
+Funktionalität
+Der erste Satz ist irreführend
+n erklären
+zurückgegeben:
+Listing caption oben sieht komisch aus
+Tag
+
+detect
+besprochenen - erklärten? Eingeführten?
+weiter - e
+
+optimized
+versuchen?
+erhöhen - verbessern
+aufgrund
+, ohne Komma
+als dass?
+es zur Erkennung relevant wäre
+könnte - kann
+das mittlere Drittel des Bildes vernachlässigt werden
+sollten - können einen Teil der Berechnungen sparen
+
+Weitere Features
+Videostream
+Dies ist möglich mit
+. am Ende
+
+Video
+(.avi)
+
+Debug
+sondern ein Testvideo, das
+einem - einem Nutzer oder dem Nutzer
+an verschiedenen - externen Geräten
+ohne direkt vor Ort/am Pi angeschlossen sein zu müssen
+
+Auswertung
+Ein Kurztest zum untersuchen der Performance...
+wurde eine Teststrecke aufgebaut
+Geräte:
+jeder -s
+alles - n
+Vorfahr - t
+Stoppschild
+Vorfahr - t
+konnte erzielt - wurde erzielt
+mag liegen - liegt
+Dazu kommt, dass Python-Skripte aufgrund ihrees... nicht performant operieren.
+Es wird eine leistungsfähigere Hardware oder Vorberechnungen auf einem FPGA empfohlen um eine Performancesteigerung zu erzielen.
+
+Fazit
+guten - funktionierenden
+Drei - drei
+genutzt, 
+eindeutiger - ...
+Muster, welches
+Viola und Jones - Viola-Jones
+, geprägt - weg
+Fähigkeit - Funktion?
+Objekten, die im Alltag vorkommen, 
+
+Aufgrund dieser Maßnahmen sollte eine deutl...

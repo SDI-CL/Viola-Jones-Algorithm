@@ -1,0 +1,24 @@
+In einem Kurztest haben wir untersucht, wie gut die Performance des Pi's mit unserem Programm ist. Dazu haben wir eine Teststrecke aufgebaut und sind diese sowohl mit dem Pi als auch mit einem Laptopt mit angeschlossener Webcam abgefahren. 
+Zum Vergleich die Spezifikationen der beiden Geräte:
+\\
+\\
+\begin{minipage}{\linewidth}
+
+\centering
+
+\begin{tabular}{|c|c|}
+\hline
+Lenovo Yoga 13 & Raspberry Pi 3 Model b\\
+\hline
+\hline
+Intel i5 2 x 1,8 GHz & Broadcom BCM2837 4 x 1,2 GHz\\
+\hline
+8 GB RAM & 1 GB RAM\\
+\hline
+\end{tabular}
+\end{minipage}
+\\
+\\
+In dem Test wurde der Modus 1 verwendet. D.h. es wird jedes Frame nach Objekten untersucht. Ebenfalls wurde in dem Test nach allen Objekten (Cones, Vorfahrt, Stopp Schild, Vorfahrt gewähren) gesucht. In diesem Test konnte der Pi maximal 6 FPS und der Laptop 30 FPS erzielen. 
+Das gleiche Ergebnis konnte unter Verwendung des Modus 2 ereicht werden. 
+Der Grund für die relativ schlechte Performance auf dem Pi liegt vermutlich am mangelnden Arbeitsspeicher. Ein weiterer Aspekt ist, dass Python-Skripte aufgrund ihres Parsings nicht performant operieren.

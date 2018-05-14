@@ -1,0 +1,7 @@
+Der erste Schritt zum Antrainieren qualifizierter Klassifizierer ist eine simple Vorbereitung der zu verwendenden Bilder, bei der es darum geht, die zu erkennenden Objekte in einem Bild zu markieren. Die Verwendung ist wie folgt:
+\begin{lstlisting}
+opencv_annotations -annotations [info.txt] -images [Bilder]
+\end{lstlisting}
+Dieses Tool öffnet die in '-images' spezifizierten Bilder. Als Paramter kann hier ein Ordner, aus dem dann alle Bilder sequentiell geöffnet werden, oder eine einzelne Bilddatei angegeben werden. Die Angabe '[info.txt]' ist hierbei die Datei, in der die entsprechenden Angaben niedergeschrieben werden. Das gespeicherte Format wurde bereits im Abschnitt \ref{sec:info_txt} erklärt. \\
+Startet man das Programm via Konsole, erscheint ein Fenster in dem das spezifizierte Bild, bzw. das erste Bild im Ordner, angezeigt ist. Mit dem ersten Linksklick wird die Aufnahme der annotation gestartet. Das Bewegen der Maus erzeugt ein rotes Rechteck, dass vom ursprünglichen Mausklickpunkt startet. Ist das Rechteck korrekt gezogen, bestätigt ein zweiter Mausklick das gezogene Rechteck. Die Eingabe wird mit 'c' bestätigt. Werden anschließend weitere Objekte im Bild markiert, wird das vorherige rote Rechteck grün gefärbt. Dies indiziert, dass das Rechteck gespeichert wurde. Die gespeicherte Eingabe kann nicht mehr rückgängig gemacht werden.\\
+Bei Eingabe von 'n' wird das nächste Bild im Ordner geladen, falls ein Ordner angegeben wurde, ansonsten wird der Prozess beendet und die Info Datei mit den entsprechenden Paramtern erstellt.

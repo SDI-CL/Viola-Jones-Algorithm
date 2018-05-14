@@ -1,0 +1,59 @@
+Der zweite Schritt des Antrainierens ist der wichtigste. Hier werden die Samples, mit denen später die Haar-like Features gebildet werden, erstellt. Die Algorithmus ist vielseitig verwendbar, da er verschiedene Kombinationsmöglichkeiten der Paramter betrachtet und anhand derer Samples erstellt.\\
+In dieser Arbeit werden nur die Fälle vorgestellt, die zum erstellen der Samples verwendet wurden. Die erste Methode diente zur Erstellung künstlicher Samples.
+\begin{lstlisting}
+opencv_createsamples -img Vorfahrtsschilder/Vorfahrt2.png
+\end{lstlisting}
+\begin{lstlisting}
+-info info.txt -bg bg.txt -num 1000 -maxidev 40
+\end{lstlisting}
+\begin{lstlisting}
+-maxxangle 0.2 -maxyangle 0.2 -maxzangle 0.2 -w 32 -h 32
+\end{lstlisting}
+\begin{lstlisting}
+-bgcolor 125 -bgthresh 10 -show
+\end{lstlisting}
+Obiger Befehl ist ein Beispiel, dass in dieser Form zur Erstellung von Samples für das zweite Vorfahrtsschild verwendet wurde. Die einzelnen Komponenten ergeben sich wie folgt:
+\begin{table}[H]
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+Parameter & Erklärung \\ \hline
+img & Beschreibt das Bild, welches für die Erstellung der künstlichen Bilder als Grundlage dient. Dieses Bild muss cropped vorliegen. Der Hintergrund muss eine einheitliche Farbe sein, damit das Bild in die Negativbilder ohne Rand oder ähnliches eingebettet werden kann.\\ \hline
+info & Spezifiziert den Speicherort, an den die Informationen für die generierten Bilder geschrieben werden. Die Datei wird, falls vorhanden, überschrieben. Sie enthält anschließend zu jedem generierten Bild die Bounding Box für das Objekt in diesem Bild.\\ \hline
+bg & Ist die Datei in der die Auflistung der Negativbilder steht.\\ \hline
+num & Gibt die Anzahl an positiven Samples an, die erstellt werden soll.\\ \hline
+maxidev & Gibt die maximale Abweichung des Intensitivitätsgrads an.\\ \hline
+maxXYZangle & Maximale Drehung in RAD die für das Erstellen der Samples verwendet wird.\\ \hline
+w und h & Geben die Breite und Höhe in Pixel an. Diese Werte sollten entsprechend der Form des Objekts gewählt werden. Beispielsweise bei einem Cone wird circa ein Seitenverhältnis von 1:2 vorhanden sein, weshalb die Höhe zweimal so groß wie die Breite sein sollte.\\ \hline
+bgcolor & Gibt den Wert für die Hintergrundfarbe an. Am besten ist eine schwarze oder weiße Hintergrundfarbe, da bgcolor dann auf 0 bzw 255 gesetzt werden kann. Bei richtig gesetztem Wert wird der Hintergrund in der Sample Erstellung transparent.\\ \hline
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+bgthresh &  Der Abweichungswert für die bgcolor Erkennung. Dieser Wert sollte möglichst klein (Maximal 10) sein, um nicht andere Bereiche des Objekts versehentlich als transparent darzustellen.\\ \hline
+show & Ist dieser Parameter gesetzt werden Bilder, bevor sie erstellt werden, angezeigt. Es kann folglich überprüft werden, ob Werte wie bgcolor oder mögliche Winkel richtig gesetzt sind und somit das Sample korrekt in die Negativbilder eingebettet wird. \\ \hline
+\end{tabularx}
+\label{tab:createsamples parameters}
+\caption{Opencv Createsamples: Parameter und deren Erklärung}
+\end{table}
+Die obige Anwendung des Programms zeigt, wie künstliche Samples zum anlernen erstellt werden können. Der eigentliche Zweck des Programms ist es jedoch sogenannte Vectorfiles zu erstellen. Diese Vector Files sind für den Lernprozess essenziell, da sie die Vektordaten  darüber enthalten, wo die zu erkennenden Objekte in den positiven Bildern liegen. Diese Datei wird anschließend für das antrainieren der Kaskaden genutzt. Der Befehl zum Erstellen dieser Datei sieht wie folgt aus:
+\begin{lstlisting}
+opencv_createsamples -info info.txt -bg bg.txt
+\end{lstlisting}
+\begin{lstlisting}
+-num 3000 -vec pos.vec
+\end{lstlisting}
+\begin{table}[H]
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+Parameter & Erklärung \\ \hline
+info & Spezifiziert den Speicherort, aus dem die Informationen zu den positiven Bildern geladen werden.\\ \hline
+bg & Gibt erneut die Speicherposition der Negativbilder an.\\ \hline
+num & Anzahl an positiven Samples, die erstellt wird.\\ \hline
+vec & Speicherort, an dem die Ausgabe des Programms in Form eines vector Files stattfindet.\\ \hline
+\end{tabularx}
+\label{tab:createsamples parameters2}
+\caption{Opencv Createsamples: Parameter und deren Erklärung für die 2. Variante}
+\end{table}
+\label{sec:opencv_createsamples}

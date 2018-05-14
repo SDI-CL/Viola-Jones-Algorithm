@@ -1,0 +1,22 @@
+Nachdem im vorherigen Abschnitt die einzelnen Parameter für den Trainingsbefehl erklärt wurden, gilt es nun den Trainingsprozess per se zu erklären.\\
+Zu Beginn wird eine Übersicht der übergebenen Paramater gegeben, woraufhin mit der ersten Stage, Stage 0, der Trainingsprozess beginnt. Hierbei werden zuerst alle positiven Bilder eingelesen.
+\begin{lstlisting}
+POS count : consumed    2800 : 2800
+\end{lstlisting}
+Die obige Codezeile gibt an, dass alle positiven Samples aus dem pos.vec File eingelesen wurden (linker Zahlenwert) und es den aktuellen Klassifizierer mit allen vorherigen Stages auf die Anzahl an zu testenden positiven Bildern (rechter Zahlenwert) anzuwenden gilt. Hierbei muss bei jedem Durchlauf 'N', auch Run genannt, die entsprechende minHitRate 'HR' überschritten werden.\\
+\begin{lstlisting}
+NEG count : acceptanceRatio    2800 : 1
+\end{lstlisting}
+Diese Codezeile gibt an, wieviele der Negativbilder mit dem aktuellen Klassifizierer bis zur jeweiligen Stage korrekt erkannt worden. In obigem Beispiel ist der Wert 1, da es für Stage 0 noch keine Weak Classifier gibt, die Negativbilder ausschließen könnten. Von Stage zu Stage wird dieser Wert in der Regel kleiner. Ziel ist es, eine AcceptanceRation von circa 0.0001 zu erreichen. Dies bedeutet, dass nur ein Subwindow von 10000 fälschlicherweise das zu erkennende Objekt erkennt.\\
+\begin{lstlisting}
+Precalculation time: 64
+\end{lstlisting}
+Anschließend wird Auskunft über die Precalculation time, also die genutzte Zeit für Vorberechnungen, ausgegeben. Vorberechnungen ersparen Zeit beim weiteren Trainingsprozess für diese Stage.\\
+Anschließend beginnt der eigentliche Trainingsprozess, bei dem mit jedem Durchlauf auf dieser Stage ein neues Ergebnis generiert wird. Ziel ist es, auf den höheren Stages mit wenigen Runs und wenigen Weak Classifieren die entsprechende Hitrate und die maximale Falsealarmrate zu erhalten. Die Schwierigkeit für den Algorithmus hierbei ist es, die Falsealarmrate zu senken und trotzdem noch die entsprechende Hitrate zu erfüllen. Es wird versucht die Falsealarmrate iterativ herabzusetzen. Eien Stage ist abgeschlossen, wenn in einem Run die erreichte Hitrate über der minimalen Hitrate und die Falsealarmrate unter der maximalen Falsealarmrate ist. \\
+Der komplette Trainingsprozess gilt als erfolgreich abgeschlossen, sobald der Algorithmus bei der in 'numStages' spezifizierten Stage angelangt ist, oder vorher bereits die Meldung ausgegeben wird, dass
+\begin{lstlisting}
+Required leaf false alarm rate achieved.
+Branch training terminated.
+\end{lstlisting}
+Während des Trainingsprozesses kann jedoch eine Vielzahl an Problemen auftreten, die im Folgenden erläutert werden.
+\label{sec:Trainingsprozess}

@@ -1,0 +1,25 @@
+Die Liste an Vorbereitungen gliedert sich wie folgt:
+\begin{itemize}
+\item[] \textbf{Zu erkennendes Objekt}\\ Es ist eine klare Vorstellung vom Objekt notwendig, wie dieses auszusehen hat und in welchen Situationen, also beispielswiese verschiedenen Winkeln und Lichtverhältnissen, dieses vorkommen kann.
+\item[] \textbf{Bilddatenbanken}\\ Eine Datenbank an Negativbildern ist für den Algorithmus unabdingbar. Je größer die Datenbank ist, desto besser. Jedoch ist ein Limit von 10,000 bildern empfehlenswert, da der Trainingsprozess ansonsten zu lange dauert. Eine Datenbank an Positivbildern ist nicht zwingend erforderlich und hängt von der Art des zu erkennenden Objekts ab. Ist das Objekt ein rigides Objekt reichen wenige Positivbilder, um das Training erfolgreich durchführen zu können. Im Falle eines nicht-rigiden Objekts, beispielsweise eines Gesichtes, ist es wichtig möglichst viele Formen und Farben zu haben, weshalb eine Datenbank an positiven Bildern notwendig ist.
+\item[] \textbf{Geeignete Datei- und Ordnerstruktur}\\ Die Ordnerstruktur, in der die Bilder und Ergebnisse des Trainings abgelegt werden, sollte von vornherein durchdacht sein. In der Ordnerstruktur sollten sich jeweils ein Ordner für die positiven Bilder, einer für die negativen Bilder sowie ein Ordner für die zu speichernden Ergebnisse befinden. Auf der gleichen Ebene, auf der sich diese Ordner befinden sollten die Textdateien für die Pfade zu den Hintergrundbildern, Pfade zu den positiven Bilder, das Vectorfile mit Informationen über alle positiven samples in den positiven Bildern und das info File mit Informationen über das Vorkommen des Objekts in den positiven Bildern befinden.
+\item[] \textbf{Programm zum Antrainieren}\\ Das in diesem Projekt verwendete Programm ist eine OpenCV-implementierung, die auf dem Raspberry PI kompiliert wurde. OpenCV liefert 3 weitere Tools, die zum Antrainieren der Klassifizierer verwendet wurden. Genaueres hierzu ist im Abschnitt \ref{sec:Antrainieren} zu finden.
+\item[] \textbf{Rapsberry PI mit ROS}\\ Für dieses Projekt wurde ein Raspberry PI 3 Modell B 1.2 verwendet. Das Betriebssystem ROS wurde auf eine Micro-SD Karte gespielt und lief standardmäßig auf dem Raspberry PI.
+\item[] \textbf{Optional: Kamera und Bildbearbeitungstool}\\ In unserem Fall wurden alle positiven Samples mit einer Canon EOS 600D aufgenommen. Die anschließende Bearbeitung der Bilder erfolgte mit Photoshop CC. Hierbei wurden die Bilder zurechtgeschnitten, Hintergründe geglättet und Unreinheiten im Bild beseitigt.
+\end{itemize}
+Der allgemeine Ablauf besteht aus der Vorbereitung der Trainingsdaten und Kaskadentraining. Diese beiden Hauptthemen können jedoch noch feiner untergliedert werden. Die Untergliederung für die Vorbereitung der Trainingsdaten sieht wie folgt aus:
+\begin{enumerate}
+\item \textbf{Erstellen der Liste der Negativbilder}\\ Die Liste negativer Bilder wird über den Befehl
+\begin{lstlisting}
+find negative/ -iname "*.jpg" > bg.txt
+\end{lstlisting}
+von uns erstellt. Dieser Befehl extrahiert sämtliche jpg-Dateinamen aus dem Verzeichnis '/negative' und schreibt diese in das Textfile 'bg.txt'
+\item \textbf{Erstellen der Liste der Positivbilder}\\ Die Liste der Positivbilder wird in der Regel per Tool erstellt, da diese ebenfalls die Objektvorkommnisse im Bild enthalten muss.
+\end{enumerate}
+Anschließend gilt es die erstellten Trainingsdaten zu verwerten:
+\begin{enumerate}
+\item \textbf{Erstellen von positiven Samples}\\ Positive Samples werden erstellt, indem das Tool Opencv\_createsamples mit den entsprechenden Kommandoparametern gestartet wird. Hierbei wird die Datenbank an positiven Bildern erstellt, aus der anschließend das positive Vectorfile erstellt wird. Die hierbei erstellten Bilder unterscheiden sich von den rein positiven Bildern, da diese Bilder eine Kombination aus rein positiven Bildern und negativen Bildern darstellen und somit eine realere Situation für das Vorkommen eines Objektes im Bild darstellen.
+\item \textbf{Erstellen des positiven Vectorfiles}\\ Das positive Vectorfile fasst sämtliche Vorkommnisse von Objekten in den positiven Samples aus vorherigem Schritt in einem File zusammen. Dieses File ist essenziell für den weiteren Trainingsprozess.
+\item \textbf{Kaskadentraining}\\ Als letzter Schritt im Ablauf gilt das Antrainieren der Kaskaden. Hierbei wird das positive Vectorfile verwendet um in verschiedenen Stages mit schwachen Klassifizierern, auch weak classifiers, eine Kaskade zu erstellen, die das Objekt möglichst einwandfrei erkennt.
+\end{enumerate}
+Nach der groben Beschreibung des Prozesses erfolgt nun die Erläuterung der einzelnen und wichtigeren Teilschritte in den folgenden Abschnitten.

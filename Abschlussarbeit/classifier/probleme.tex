@@ -1,0 +1,24 @@
+Probleme, die während des Trainingsprozesses aufkommen können, sind so gut wie nicht dokumentiert. Es bedurfte einiger Nachforschungen um die Probleme ergründen und verstehen, sowie diese anschließend lösen zu können.
+Mögliche Probleme umfassen:
+\begin{enumerate}
+\item \textbf{Killed}\\ Meist ist die Ursache hierfür, dass der Arbeitsspeicher nicht ausreicht. Der Trainingsprozess wird abrupt abgebrochen. Zurückzuführen ist dies auf die Implementierung von OpenCVs Trainscascade. Für den Trainingsprozess werden harte Kopien der Bilder erstellt. Ergo wird bei einer Anzahl von 3000 positive Samples und einer Subwindowgröße von 32x32 Pixeln eine sehr große Zahl an Bildern in den Hauptspeicher geladen. Das Limit kann schnell erreicht sein, weshalb der Prozess einfach abgebrochen und mit einem 'Killed' kommentiert wird.
+\item \textbf{Branch Training terminated}\\ Diese Aussage kann je nach Präfix positiv oder negativ sein. In einen Fall ist, wie bereits im vorherigen Abschnitt beschrieben, die entsprechende Zielrate der Bilderkennung erreicht worden. Eine andere Begründung für dieses Statement kann jedoch sein, dass der Algorithmus keinen Sinn dahinter sieht, diese Stage zu berechnen, da das Ergebnis zu fein, also overfitted, mit der angegebenen Anzahl an 'numStages' sein wird. Der Prozess wird deshalb abgebrochen und das Training ist unvollständig. Der Prozess kann jedoch anschließend mit einer größeren Anzahl an 'numStages' gestartet werden.
+\item \textbf{Wenige Runs pro Stage}\\ In den ersten Stages ist es in Ordnung, wenn nur wenige Runs gestartet werden, um entsprechende Weak Classifier für diese Stage zu wählen. Je höher die Anzahl an Stages jedoch wird, desto mehr Runs sollten vorhanden sein. Als selbst festgelegte Faustregel kann von mindestens der Stage als Anzahl an Runs ausgegangen werden. Im Beispiel sollten bei der Berechnung für Stage 10 mindestens 10 Runs durchlaufen werden.
+\item \textbf{cols == rows}\\ Dieser Fehler beschreibt den Fall, dass in der pos.vec Datei andere Werte für Höhe und Breite gesetzt wurden, als die beim Training verwendeten Werte. Um diesen Fehler zu korrigieren müssen die Werte für Breite und Höhe für 'opencv createsample' und 'opencv traincascade' angepasst werden.
+\item \textbf{Overfitting}\\ Sollte das Training mit schlecht gewählten positiven Samples durchgeführt worden sein und die Acceptance Ratio einen sehr niedrigen Wert (ca. 0.0001) erreichen, kann der Klassifizierer overfitted, also nur speziell auf diesen Fall antrainiert, sein. Dieser Fehler lässt sich beseitigen indem die positiven Samples mit den von uns vorgeschlagenen Mitteln vorher bearbeitet werden oder eine schlechtere Erkennungsrate mit möglicherweise mehr false positives muss akzeptiert werden.
+\item \textbf{Out of positive samples}\\ Dieses Problem wurde im vorherigen Abschnitt \ref{sec:traincascade} unter traincascade bereits erklärt. Dieser Fehler tritt auf, wenn beim Trainingsprozess durch iteratives Erhöhen der positiven Samples der Maximalwert der verfügbaren Samples überschritten wird. Die einfachste Lösung hierzu ist, den Trainingsprozess mit weniger positiven Samples fortzusetzen. Alternativ können durch die bereits beschriebenen Methoden neue positive Samples und ein neues pos.vec File generiert werden. Jedoch muss der Trainingsprozess bei dieser Alternative neu gestartet werden, da sich das pos.vec geändert hat.
+\item \textbf{Out of Range error}\\ Diesem Fehler liegen korrumpierte Negativbilder zugrunde. Eine Sichtung der Negativbilder und löschen der fehlerhaften Bilder behebt diesen Fehler.
+\item \textbf{nonsym und baseFormatSave}\\ Sollten diese Parameter nicht gesetzt sein, ist das Fomrat der generierten Kaskaden nicht für unseren Algorithmus nutzbar. Ein Setzen der Parameter beim Training löst dieses Problem.
+\item \textbf{Falsch generierte Samples}\\ Via createsamples werden die genutzten positiven Samples generiert. Hierbei ist es unabdingbar für den Anfang den Parameter 
+\begin{lstlisting}
+-show
+\end{lstlisting}
+zu nutzen. Dieser Parameter zeigt die generierten Samples an. Zu Testzwecken können die Breite und Höhe auf beispielsweise 100 gesetzt werden, um das Testbild besser betrachten zu können. Sind in den angezeigten Bildern schwarze oder weiße Hintergründe zu sehen oder Transparenzen die nicht gewünscht sind, müssen die Werte 
+\begin{lstlisting}
+-bgcolor
+\end{lstlisting}
+und
+\begin{lstlisting}
+-bgthresh
+\end{lstlisting} angepasst werden.
+\end{enumerate}

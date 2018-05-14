@@ -1,0 +1,32 @@
+\contentsline {chapter}{\numberline {1}Motivation}{1}
+\contentsline {chapter}{\numberline {2}Der Viola und Jones Algorithmus}{3}
+\contentsline {section}{\numberline {2.1}Vorbereitungen und grundlegender Ablauf}{3}
+\contentsline {section}{\numberline {2.2}Antrainieren der Klassifizierer}{6}
+\contentsline {subsection}{\numberline {2.2.1}Voraussetzungen}{6}
+\contentsline {subsection}{\numberline {2.2.2}Antrainieren}{7}
+\contentsline {subsubsection}{Opencv Annotations}{7}
+\contentsline {subsubsection}{Opencv Createsamples}{8}
+\contentsline {subsubsection}{Opencv Traincascade}{11}
+\contentsline {subsubsection}{Trainingsprozess}{15}
+\contentsline {section}{\numberline {2.3}Probleme}{17}
+\contentsline {chapter}{\numberline {3}VJCMS}{20}
+\contentsline {section}{\numberline {3.1}Ziele}{20}
+\contentsline {section}{\numberline {3.2}Voraussetzungen}{21}
+\contentsline {section}{\numberline {3.3}Aufbau des Programms}{22}
+\contentsline {subsection}{\numberline {3.3.1}VJCMS}{23}
+\contentsline {subsection}{\numberline {3.3.2}Viola}{23}
+\contentsline {subsection}{\numberline {3.3.3}objectdetector}{23}
+\contentsline {subsection}{\numberline {3.3.4}VJ\_Logging}{23}
+\contentsline {subsection}{\numberline {3.3.5}VJ\_Exception}{24}
+\contentsline {subsection}{\numberline {3.3.6}monitor.py}{24}
+\contentsline {section}{\numberline {3.4}Funktionalit\IeC {\"a}t}{25}
+\contentsline {subsection}{\numberline {3.4.1}detect\_and\_track}{26}
+\contentsline {subsection}{\numberline {3.4.2}detect}{26}
+\contentsline {subsection}{\numberline {3.4.3}optimized}{27}
+\contentsline {subsection}{\numberline {3.4.4}Weitere Features}{27}
+\contentsline {subsubsection}{Videostream}{27}
+\contentsline {subsubsection}{Video}{27}
+\contentsline {subsubsection}{Debug}{27}
+\contentsline {chapter}{\numberline {4}Auswertung}{29}
+\contentsline {chapter}{\numberline {5}Fazit}{30}
+\contentsline {chapter}{Literaturverzeichnis}{33}

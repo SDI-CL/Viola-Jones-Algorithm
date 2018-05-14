@@ -1,0 +1,67 @@
+%VJCMS besitzt im Grunde drei Modi. Zum einen $detect\_and\_track$ und zum anderen $detect$. Der erstere basiert dabei auf dem Flowchart aus Abbildung \ref{fig: vjcms_flow}. Der zweite lässt das Verfolgen der Objekte mittels Cam-Shift weg und übermittelt nur, in einem gewissen Abstand, die Koordinaten der Bounding-Boxes. Welcher Modus verwendet werden soll kann über die Option \inlinecode{python}{--mode} dem Programm mitgegeben werden. Neben diesen grundlegenen Fuktionen gibt es noch eine Reihe weitere Features, die das Skript unterstützt. Zum einen wäre da die Ausgabe eines Videostreams, mit den Bounding-Boxes. Zum einen kann dieser entweder direkt auf einen angeschlossenen Bildschirm ausgegeben werden, zum anderen besteht die Möglichkeit das Signal via TCP an einen Server zu schicken. Der Server wäre in diesem Fall das Skript monitor.py. Dies kann über die Option \inlinecode{python}{--network} angegeben werden. Die Liste aller möglichen Optionen ist in der Tabelle \ref{options}
+Im Folgenden werde die einzelnen möglichen Parameter für den Funktionsaufruf aufgelistet und erklärt.
+\begin{table}[H]
+\begin{tabular}{|l|c|c|p{8cm}|}
+\hline
+Option& Wertebereich&Standard&Erklärung\\
+\hline
+--debug, -d & {0,1} & 1 & 0 = Als Input wird die PiCamera verwendet, 1 = Ein Video, welches im Ordner videos liegt, wird verwendet\\
+\hline
+--mode, -m & 0,1,2 & 0 & 0 = detect\_and\_track, 1 = detect, 2 = optimized \\
+\hline 
+--network, -n & 0,1,2 & 0 & 0 = Ausgabe über Monitor, 1 = Ausgabe via Stream, 2 = keine Ausgabe\\
+\hline
+--ip,-ip & string & local & IP-Adresse des Servers\\
+\hline
+--port, -port & int & 5001 & Port des Servers\\
+\hline
+--verbose, -v & 0,1,2 & 2 &0 = INFO, WARNING, ERROR, 1 = WARNING, ERROR, 2 = ERROR\\
+\hline
+--track, -t & int & 50 & Anzahl der Frames, für die ein Objekt verfolgt werden soll\\
+\hline
+--skip, -s & int & 5 & Anzahl der Frames, in denen der Frame ohne bearbeitung angezeigt wird\\
+\hline
+--object, -o & string & cone & Liste der Objekte, die erkannt werden sollen\\
+\hline
+--video & Boolean & False & Wenn diese Option genutzt wird, wir der aktuelle Outputstream als Video auf dem Pi gespeichert\\
+\hline
+\end{tabular}
+\caption{Liste der Optionen für VJCMS}
+\label{options}
+\end{table}
+
+VJCMS bietet eine Reihe von Funktionen, um Objekte im Videostream erkenen zu können. Es gibt insgesammt 3 Modi, die in verschiedenen Kombinationen mit anderen Paramtern genutzt werden können. Neben diesen Kernfunktionen bietet dieses Skript noch eine Reihe weitere hilfreiche Features, die vor allem für Debug-Zwecke sinnvoll sein können.
+\subsection{detect\_and\_track}
+In dem Modus detect\_and\_track wird alle n Frames untersucht, ob sich eines der gesuchten Objekte darin befindet. Im Anschluss werden alle in dem Frame erkannten Objekte für die Dauer von m Frames durch den Camshift Algorithmus verfolgt. Jedes Mal, wenn ein Objekt erkannt wurde, werden die Koordinaten der Bounding-Box ausgegeben.
+
+\begin{lstlisting}[caption={Aufbau des Ergebnis-Array}]
+....
+{x1, y1, x2, y2, label},
+{x1, y1, x2, y2, label}
+....
+
+\end{lstlisting}
+
+Die ersten beiden Koordinaten beschreiben dabei die linke obere Ecke der Bounding-Box und das zweite Koordinaten-Paar die rechte untere Ecke. Das Label gibt an um welches Objekt es sich handelt.
+
+
+\subsection{detect}
+Im Gegensatz zu dem gerade eben erklärten Modus detect\_and\_track, werden hier Objekte lediglich erkannt und deren Position in dem bekannten Format ausgegeben. Es wird sonst keine weitere Bearbeitung des Frames vorgenommen. Es wird hierbei jeder einzelne Frame untersucht.
+
+\subsection{optimized}
+In diesem Modus implementieren wir einige Optimierungen, die dazu dienen sollen, die Performance des Algorithmus auf dem Pi zu verbessern.
+\\
+Wir nehmen an, dass in einem normalen Verkehrszenario alle für uns relevanten Schilder entweder links oder rechts von unserem Auto am Straßenrand stehen. Dies hätte zur Folge, dass sich in der Mitte unseres Bildes keine relevanten Informationen befinden. Selbst wenn ein Schild aufgrund der Distanz zu unserem Auto, theoretisch dadurch in der Mitte unseres Bilder erscheinen würde, wäre das Schild zu weit weg, als das es zur Erkennung relevant wäre.
+Demzufolge könnte das mittlere Drittel des Bilder vernachlässigt werden.
+In diesem Modus wird lediglich das linke und rechte Drittel eines jeden Frames untersucht, wodurch ein Teil der Berechnungen eingespart wird.
+
+\subsection{Weitere Features}
+
+\subsubsection{Videostream}
+Wie eingangs erwähnt besteht die Möglichkeit, einen Videostream zu erzeugen, der die Bounding-Boxes anzeigt. Dazu gibt es verschiedene Ausgabemöglichkeiten. Zum einen direkt auf einem über den HDMI Port angeschlossenen Bildschirm. Zum anderen kann dieses Signal aber auch über TCP an einen entsprechenden Server geschickt werden. Dies ist mit monitor.py möglich.
+Der Parameter, der dies steuert ist \inlinecode{python}{--network}.
+\subsubsection{Video}
+Neben der Ausgabe des Videostreames gibt es auch die Möglichkeit diesen gleich auf dem Pi als Videodatei (.avi) zu speichern. Über die Option \inlinecode{python}{--video} kann dieses Feature aktiviert werden.
+
+\subsubsection{Debug}
+Eien weitere sehr hilfreiche Option, besonders während der Entwicklung, ist der Debug Modus. In diesem Modus wird keine Kamera als Videoquelle verwendet, sondern ein Testvideo, dass sich in dem Ordner videos befindet. Dieses kann natürlich nach belieben ausgetauscht werden. Das Feature ermöglicht es einem Nutzer an verschiedenen Rechnern und Geräten zu arbeiten, ohnen einen Pi zum testen parat haben zu müssen.

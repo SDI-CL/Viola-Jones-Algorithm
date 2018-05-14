@@ -1,0 +1,17 @@
+Für die Implementierung und Ausführung unseres Programms sind folgende vorinstallierten Packeges nötig:
+
+\begin{itemize}
+\item Python 2.7
+\item OpenCV 3.3 oder höher für Python
+\item termcolor 1.1 (Installation durch pip-Installer)
+\end{itemize}
+
+
+Das Programm wurde in Python 2.7 geschrieben und setzt zu großen Teilen auf die Bibliotheken von OpenCV\cite{opencv}. OpenCV stellt an dieser Stelle ein Sammlung von Funktionen bereit, die denen von Viola-Jones entsprechen. Es gibt es diese Bibliotheken für verschiedene Programmiersprachen.
+\\
+Für den Pi gibt es leider kein fertiges Package, dass einfach installiert werden kann, sondern es muss OpenCV selbst kompiliert werden. Hierbei können zwei Probleme auftretten. Das erste Problem ist die fehlende Kühlung der CPU des Pi's. Erst nachdem dieser mittels eines umgebauten Lüfters gekühlt wurde, konnte der Pi überhaupt lang genug in einem akzeptablen Temperaturbereich gehalten werden, um mit diesem arbieten zu können. Das zweite Problem war der mangelnde Arbeitsspeicher. Dieses konnte durch das Erweitern des Swap-Files gelöst werden.
+\\
+Das Modul termcolor wird lediglich dazu genutzt die Ausgabe in der Konsole farblich aufzuarbeiten.
+
+%Nachdem OpenCV nicht direkt für den Raspberry Pi 3 bzw. dessen Architektur verfügbar ist, mussten wir dieses selbst aus den Source-Dateien bauen. Hier ergaben sich schon die ersten Probleme. Ein sich an dieser Stelle recht schnell manifestierendes Problem, war die mangelnde Kühlung der CPU des Raspberry Pi. Trotz passiver Kühlkörper überhitzte der Pi mehrmals. Abhilfe konnte ein modifizierter Lüfter verschaffen, der direkt auf den Kühlkörper der CPU gelegt wurde. Ein weiteres Problem war der geringe Arbeitsspeicher des Pi. Dieser führte ebenfalls mehrmals zum Abbruch. Durch die Erweiterung der Swap-File konnte auch dieses Problem gelöst und OpenCV gebaut werden. \\
+%Ein Problem etwas anderer Art liegt in Python 2.7 selbst.  CPython hat eine Funktionalität namens Global Interpreter Lock, kurz GIL. \cite{gil} Dieses globale Lock wird genutzt um alle parallel laufende Threads Thread-sicher zu machen. Das hat zur Konsequenz, dass zwei parallel laufende Threads in Wirklichkeit nicht echt parallel sind, sondern regelmäßig durch GIL blockiert werden. Dies hat bei unseren Tests noch nicht zu einem größeren Problem geführt, kann aber Augenmerk einer weiteren Optimierung des Skriptes sein. An dieser Stelle wären auch Interpreter wie Jython oder IronPython denkbar, da diese kein GIL nutzen.\\
